@@ -29,8 +29,8 @@ Por favor marca a continuación los ejericios que hayais terminado:
 4.1 Node JS:
 
 - [x] 1. Crea el proyecto.
-- [ ] 2. Arranca el backend.
-- [ ] 3. Arranca el front end.
+- [x] 2. Arranca el backend.
+- [x] 3. Arranca el front end.
 - [ ] 4. Prueba el proyecto.
 - [ ] 5. Entiende el código del proyecto.
 
