@@ -17,23 +17,8 @@ server.listen(serverPort, () => {
 server.get('/movies', (req, res) => {
   const response = {
     success: true,
-    // 13 de mayo FIN
-    movies: [
-      {
-        id: '1',
-        title: 'Gambito de dama',
-        gender: 'Drama',
-        image:
-          '//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/images/gambito-de-dama.jpg',
-      },
-      {
-        id: '2',
-        title: 'Friends',
-        gender: 'Comedia',
-        image:
-          '//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/images/friends.jpg',
-      },
-    ],
+    movies,
   };
   res.json(response);
+  console.log(response);
 });
