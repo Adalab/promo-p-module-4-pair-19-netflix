@@ -15,9 +15,18 @@ server.listen(serverPort, () => {
 
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
+  const genderFilterParam = req.query.gender;
+
+  console.log(req.query.gender);
   const response = {
     success: true,
-    movies,
+    movies: movies.filter((movie) => {
+      if (genderFilterParam === '') {
+        return true;
+      } else {
+        return movie.gender === genderFilterParam ? true : false;
+      }
+    }),
   };
   res.json(response);
   console.log(response);
