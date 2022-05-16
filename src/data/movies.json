@@ -3,30 +3,30 @@
     "id": "1",
     "title": "Gambito de dama",
     "gender": "Drama",
-    "image": "https://via.placeholder.com/150"
+    "image": "//localhost:4000/gambita-de-dama.jpg"
   },
   {
     "id": "2",
     "title": "Friends",
     "gender": "Comedia",
-    "image": "https://via.placeholder.com/150"
+    "image": "//localhost:4000/friends.jpg"
   },
   {
     "id": "3",
     "title": "Squid game",
     "gender": "Drama",
-    "image": "https://via.placeholder.com/150"
+    "image": "//localhost:4000/squid-game.jpg"
   },
   {
     "id": "4",
     "title": "You",
     "gender": "Drama",
-    "image": "https://via.placeholder.com/150"
+    "image": "//localhost:4000/you.jpg"
   },
   {
     "id": "5",
     "title": "Castle",
     "gender": "Comedia",
-    "image": "https://via.placeholder.com/150"
+    "image": "//localhost:4000/castle.jpg"
   }
 ]

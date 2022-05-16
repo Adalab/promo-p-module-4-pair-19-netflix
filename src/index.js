@@ -45,3 +45,8 @@ server.get('/movies', (req, res) => {
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
+
+// Servidor de estáticos para las fotos
+const staticServerPathImages = './src/public-movies-images';
+server.use(express.static(staticServerPathImages));
+// http://localhost:4000/gambita-de-dama.jpg Se ve el póster de la serie
