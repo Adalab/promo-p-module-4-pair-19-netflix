@@ -45,6 +45,7 @@ server.get('/movies', (req, res) => {
 // Endpoint usuarios
 server.post('/login', (req, res) => {
   console.log(req.body);
+
   const loggedUser = users.find((user) => {
     if (
       // Recordar que nuestros bodyParams son userEmail y userPass (línea 4 api-user.js)
@@ -71,6 +72,9 @@ server.post('/login', (req, res) => {
 // Endpoint para las películas individuales
 server.get('/movie/:movieId', (req, res) => {
   console.log(req.params);
+
+  const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
+  console.log(foundMovie);
 });
 
 // Servidor de estáticos de Express
