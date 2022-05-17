@@ -42,28 +42,31 @@ server.get('/movies', (req, res) => {
   res.json(response);
 });
 
-// Endpoint usuarios ////// 4.3 ex 3
+// Endpoint usuarios
 server.post('/login', (req, res) => {
   console.log(req.body);
-  const foundUser = users.find((user) => {
-    if (user.email === req.body.email && user.password === req.body.password) {
+  const loggedUser = users.find((user) => {
+    if (
+      // Recordar que nuestros bodyParams son userEmail y userPass (línea 4 api-user.js)
+      user.email === req.body.userEmail &&
+      user.password === req.body.userPass
+    ) {
       return user;
     }
-    return null;
   });
-  if (foundUser === '') {
+  if (loggedUser !== undefined) {
     return res.json({
       success: true,
-      userId: req.body.id,
+      userId: loggedUser.id,
     });
   } else {
+    // Es decir, si es undefined. No lo encuentra en nuestro json de users
     return res.json({
       success: false,
       errorMessage: 'Usuaria/o no encontrada/o',
     });
   }
 });
-////// 4.3 ex 3
 
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
