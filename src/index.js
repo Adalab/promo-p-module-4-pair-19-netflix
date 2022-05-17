@@ -68,6 +68,11 @@ server.post('/login', (req, res) => {
   }
 });
 
+// Endpoint para las películas individuales
+server.get('/movie/:movieId', (req, res) => {
+  console.log(req.params);
+});
+
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
