@@ -14,12 +14,14 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
+// Motor de plantillas
+server.set('view engine', 'ejs');
+
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
   const genderFilterParam = req.query.gender;
   const sortFilterParam = req.query.sort;
 
-  console.log(req.query.gender);
   const response = {
     success: true,
     movies: movies
@@ -44,8 +46,6 @@ server.get('/movies', (req, res) => {
 
 // Endpoint usuarios
 server.post('/login', (req, res) => {
-  console.log(req.body);
-
   const loggedUser = users.find((user) => {
     if (
       // Recordar que nuestros bodyParams son userEmail y userPass (línea 4 api-user.js)
@@ -71,10 +71,9 @@ server.post('/login', (req, res) => {
 
 // Endpoint para las películas individuales
 server.get('/movie/:movieId', (req, res) => {
-  console.log(req.params);
-
   const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
-  console.log(foundMovie);
+  ////// 4.4 ex 3. Renderiza una página cualquiera
+  res.render('movie', foundMovie);
 });
 
 // Servidor de estáticos de Express
