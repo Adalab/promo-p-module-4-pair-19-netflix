@@ -60,7 +60,7 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [x] 1. Crear la base de datos.
 - [x] 2. Configura la base de datos en Node JS.
 - [x] 3. Haz un SELECT para obtener todas películas.
-- [ ] 4. Mejora tu SELECT.
+- [x] 4. Mejora tu SELECT.
 - [ ] 5. SELECT para el motor de plantillas.
 - [ ] 6. Crear la tabla de usuarias.
 

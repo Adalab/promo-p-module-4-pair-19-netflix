@@ -13,7 +13,7 @@ server.use(cors());
 server.use(express.json());
 
 // Init express aplication
-const serverPort = 4000;
+const serverPort = 4001;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
@@ -28,38 +28,34 @@ const db = new Database('./src/db/database.db', {
 
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
-  // preparamos la query
-  const query = db.prepare('SELECT * FROM movies');
-  // ejecutamos la query
-  const movies = query.all();
+  // Recogemos los query params, si no llegan le damos valores por defecto
+  const genderFilterParam = req.query.gender || '';
+  const sortFilterParam = req.query.sort || 'ASC';
 
-  console.log(movies);
+  let movieList = [];
 
-  // const genderFilterParam = req.query.gender;
-  // const sortFilterParam = req.query.sort;
-
-  // const response = {
-  //   success: true,
-  //   movies: movies
-  //     .filter((movie) => {
-  //       if (genderFilterParam === '') {
-  //         return true;
-  //       } else {
-  //         return movie.gender === genderFilterParam ? true : false;
-  //       }
-  //     })
-  //     .sort(function (a, b) {
-  //       const result = a.title.localeCompare(b.title);
-  //       // Por defecto está asc
-  //       if (sortFilterParam === 'desc') {
-  //         return result * -1;
-  //       }
-  //       return result;
-  //     }),
-  // };
+  if (genderFilterParam === '') {
+    // preparamos la query
+    const query = db.prepare(
+      `SELECT * FROM movies ORDER BY name ${sortFilterParam}`
+    );
+    // ejecutamos la query
+    movieList = query.all();
+  } else {
+    // preparamos la query
+    const query = db.prepare(
+      `SELECT * FROM movies WHERE gender=? ORDER BY name ${sortFilterParam}`
+    );
+    // ejecutamos la query
+    movieList = query.all(genderFilterParam);
+  }
 
   // respondemos a la petición con los datos que ha devuelto la base de datos
-  res.json(movies);
+  const response = {
+    success: true,
+    movies: movieList,
+  };
+  res.json(response);
 });
 
 // Endpoint usuarios
