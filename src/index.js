@@ -80,9 +80,26 @@ server.post('/login', (req, res) => {
 });
 
 // Endpoint para escuchar las peticiones
-server.get('/movie/:movieId', (req, res) => {
+/* server.get('/movie/:movieId', (req, res) => {
   const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
   res.render('movie', foundMovie);
+}); */
+server.get('/movie/:movieId', (req, res) => {
+  // Obtener los datos de las películas
+  const movieData = movies.find((movie) => movie.id === req.params.movieId);
+  console.log(movieData);
+
+  // Responder con el template renderizado
+  if (movieData) {
+    // Asegurar los datos
+    movieData.title = movieData.title || '';
+    movieData.gender = movieData.gender || '';
+    movieData.image = movieData.image || '';
+
+    res.render('movie', movieData);
+  } else {
+    res.render('movie-not-found');
+  }
 });
 
 // Servidor de estáticos de Express
