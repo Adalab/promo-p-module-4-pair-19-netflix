@@ -54,14 +54,24 @@ server.post('/login', (req, res) => {
     ) {
       return user;
     }
+    /* O simplemente 
+    users.find((user) => user.email === req.body.userEmail &&
+    user.password === req.body.userPass) */
   });
   if (loggedUser !== undefined) {
     return res.json({
       success: true,
       userId: loggedUser.id,
     });
+    /* Otra forma de hacerlo
+      if (loggedUser) {
+    res.json({
+      success: true,
+      userId: 'id_de_la_usuaria_encontrada',
+    });
+    */
   } else {
-    // Es decir, si es undefined. No lo encuentra en nuestro json de users
+    // Es decir, si es undefined, o sea, si no lo encuentra en nuestro json de users, salta el mensaje Not Found:
     return res.json({
       success: false,
       errorMessage: 'Usuaria/o no encontrada/o',
@@ -69,7 +79,7 @@ server.post('/login', (req, res) => {
   }
 });
 
-// Endpoint para las películas individuales
+// Endpoint para escuchar las peticiones
 server.get('/movie/:movieId', (req, res) => {
   const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
   ////// 4.4 ex 3. Renderiza una página cualquiera
@@ -84,3 +94,6 @@ server.use(express.static(staticServerPathWeb));
 const staticServerPathImages = './src/public-movies-images';
 server.use(express.static(staticServerPathImages));
 // http://localhost:4000/gambita-de-dama.jpg Se ve el póster de la serie
+
+// Servidor de estáticos para los estilos
+// const staticServerPathStyles =
