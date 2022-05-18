@@ -1,5 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+// importar el módulo better-sqlite3
+const Database = require('better-sqlite3');
+
+//importar datos
 const movies = require('./data/movies.json');
 const users = require('./data/users.json');
 
@@ -17,34 +21,45 @@ server.listen(serverPort, () => {
 // Motor de plantillas
 server.set('view engine', 'ejs');
 
-//Configuración base de datos
-const db = new Database('./src/db/database.db', { ... }); 
+// Configuración base de datos
+const db = new Database('./src/db/database.db', {
+  verbose: console.log,
+});
 
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
-  const genderFilterParam = req.query.gender;
-  const sortFilterParam = req.query.sort;
+  // preparamos la query
+  const query = db.prepare('SELECT * FROM movies');
+  // ejecutamos la query
+  const movies = query.all();
 
-  const response = {
-    success: true,
-    movies: movies
-      .filter((movie) => {
-        if (genderFilterParam === '') {
-          return true;
-        } else {
-          return movie.gender === genderFilterParam ? true : false;
-        }
-      })
-      .sort(function (a, b) {
-        const result = a.title.localeCompare(b.title);
-        // Por defecto está asc
-        if (sortFilterParam === 'desc') {
-          return result * -1;
-        }
-        return result;
-      }),
-  };
-  res.json(response);
+  console.log(movies);
+
+  // const genderFilterParam = req.query.gender;
+  // const sortFilterParam = req.query.sort;
+
+  // const response = {
+  //   success: true,
+  //   movies: movies
+  //     .filter((movie) => {
+  //       if (genderFilterParam === '') {
+  //         return true;
+  //       } else {
+  //         return movie.gender === genderFilterParam ? true : false;
+  //       }
+  //     })
+  //     .sort(function (a, b) {
+  //       const result = a.title.localeCompare(b.title);
+  //       // Por defecto está asc
+  //       if (sortFilterParam === 'desc') {
+  //         return result * -1;
+  //       }
+  //       return result;
+  //     }),
+  // };
+
+  // respondemos a la petición con los datos que ha devuelto la base de datos
+  res.json(movies);
 });
 
 // Endpoint usuarios
