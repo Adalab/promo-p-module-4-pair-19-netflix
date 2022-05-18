@@ -17,6 +17,9 @@ server.listen(serverPort, () => {
 // Motor de plantillas
 server.set('view engine', 'ejs');
 
+//Configuración base de datos
+const db = new Database('./src/db/database.db', { ... }); 
+
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
   const genderFilterParam = req.query.gender;
