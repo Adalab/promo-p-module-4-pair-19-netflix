@@ -82,7 +82,6 @@ server.post('/login', (req, res) => {
 // Endpoint para escuchar las peticiones
 server.get('/movie/:movieId', (req, res) => {
   const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
-  ////// 4.4 ex 3. Renderiza una página cualquiera
   res.render('movie', foundMovie);
 });
 
