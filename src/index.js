@@ -122,9 +122,29 @@ server.get('/movie/:movieId', (req, res) => {
   }
 });
 
+////// Lección 4.6 ejercicios 2 y 3 (registro nuevas usuarias y comprobar que no haya una con el mismo mail)
 server.post('/sign-up', (req, res) => {
-  res.json();
+  const userEmail = db.prepare(`SELECT email FROM users WHERE email=?`);
+  const foundUser = userEmail.get(req.body.userEmail);
+
+  // Comprobar si el e-mail ya existe en la db
+  if (foundUser === undefined) {
+    const query = db.prepare(
+      `INSERT INTO users (email, password) VALUES (?, ?)`
+    );
+    const result = query.run(req.body.userEmail, req.body.userPass);
+    res.json({
+      success: true,
+      errorMessage: '¡Bienvenida! Usuaria creada con éxito',
+    });
+  } else {
+    res.json({
+      success: false,
+      errorMessage: 'Ya hay una usuaria con este e-mail',
+    });
+  }
 });
+//////
 
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
