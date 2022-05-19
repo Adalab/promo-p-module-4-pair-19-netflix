@@ -136,4 +136,5 @@ server.use(express.static(staticServerPathImages));
 // http://localhost:4000/gambita-de-dama.jpg Se ve el póster de la serie
 
 // Servidor de estáticos para los estilos
-// const staticServerPathStyles =
+const staticServerPathStyles = './src/web/src/stylesheets';
+server.use(express.static(staticServerPathStyles));
