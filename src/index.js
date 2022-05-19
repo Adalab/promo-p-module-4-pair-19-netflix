@@ -122,6 +122,10 @@ server.get('/movie/:movieId', (req, res) => {
   }
 });
 
+server.post('/sign-up', (req, res) => {
+  res.json();
+});
+
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
