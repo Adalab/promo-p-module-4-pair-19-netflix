@@ -27,7 +27,7 @@ const sendLoginToApi = (data) => {
 const sendSingUpToApi = (data) => {
   console.log('Se están enviando datos al signup:', data);
   const bodyParams = {
-    userEmail: data.toLowerCase().email,
+    userEmail: data.email,
     userPass: data.password,
   };
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
@@ -38,7 +38,6 @@ const sendSingUpToApi = (data) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    // Body (declaramos bodyParams en la línea 4)
     body: JSON.stringify(bodyParams),
   })
     .then((response) => response.json())
@@ -75,8 +74,7 @@ const getProfileFromApi = (userId) => {
     });
 };
 
-// user movies
-
+// User movies
 const getUserMoviesFromApi = (userId) => {
   console.log(
     'Se están pidiendo datos de las películas de la usuaria:',

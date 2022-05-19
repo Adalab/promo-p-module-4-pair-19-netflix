@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-// importar el módulo better-sqlite3
+// Importar el módulo better-sqlite3
 const Database = require('better-sqlite3');
 
-//Importar datos
+// Importar datos
 const movies = require('./data/movies.json');
 const users = require('./data/users.json');
 
-// Create and config server
+// Crear y configurar el servidor
 const server = express();
 server.use(cors());
 server.use(express.json());
@@ -18,7 +18,7 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-// Motor de plantillas
+// Motor de plantillas (template engine)
 server.set('view engine', 'ejs');
 
 // Configuración base de datos
@@ -35,14 +35,14 @@ server.get('/movies', (req, res) => {
   let movieList = [];
 
   if (genderFilterParam === '') {
-    // preparamos la query
+    // Preparamos la query
     const query = db.prepare(
       `SELECT * FROM movies ORDER BY name ${sortFilterParam}`
     );
-    // ejecutamos la query
+    // Ejecutamos la query
     movieList = query.all();
   } else {
-    // preparamos la query
+    // Preparamos la query
     const query = db.prepare(
       `SELECT * FROM movies WHERE gender=? ORDER BY name ${sortFilterParam}`
     );
@@ -50,7 +50,7 @@ server.get('/movies', (req, res) => {
     movieList = query.all(genderFilterParam);
   }
 
-  // respondemos a la petición con los datos que ha devuelto la base de datos
+  // Respondemos a la petición con los datos que ha devuelto la base de datos
   const response = {
     success: true,
     movies: movieList,
@@ -101,12 +101,12 @@ server.post('/login', (req, res) => {
 server.get('/movie/:movieId', (req, res) => {
   ///// const movieData = movies.find((movie) => movie.id === req.params.movieId);
 
-  //Recoger el parametro Id de la película a detallar
+  // Recoger el parametro Id de la película a detallar
   const movieIdParam = req.params.movieId;
 
-  // preparamos la query
+  // Preparamos la query
   const query = db.prepare(`SELECT * FROM movies WHERE id=?`);
-  // ejecutamos la query
+  // Ejecutamos la query
   const foundMovie = query.get(movieIdParam);
 
   // Responder con el template renderizado
