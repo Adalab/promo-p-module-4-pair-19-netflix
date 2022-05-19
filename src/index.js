@@ -3,7 +3,7 @@ const cors = require('cors');
 // importar el módulo better-sqlite3
 const Database = require('better-sqlite3');
 
-//importar datos
+//Importar datos
 const movies = require('./data/movies.json');
 const users = require('./data/users.json');
 
@@ -99,18 +99,24 @@ server.post('/login', (req, res) => {
   res.render('movie', foundMovie);
 }); */
 server.get('/movie/:movieId', (req, res) => {
-  // Obtener los datos de las películas
-  const movieData = movies.find((movie) => movie.id === req.params.movieId);
-  console.log(movieData);
+  ///// const movieData = movies.find((movie) => movie.id === req.params.movieId);
+
+  //Recoger el parametro Id de la película a detallar
+  const movieIdParam = req.params.movieId;
+
+  // preparamos la query
+  const query = db.prepare(`SELECT * FROM movies WHERE id=?`);
+  // ejecutamos la query
+  const foundMovie = query.get(movieIdParam);
 
   // Responder con el template renderizado
-  if (movieData) {
+  if (foundMovie) {
     // Asegurar los datos
-    movieData.title = movieData.title || '';
-    movieData.gender = movieData.gender || '';
-    movieData.image = movieData.image || '';
+    foundMovie.name = foundMovie.name || '';
+    foundMovie.gender = foundMovie.gender || '';
+    foundMovie.image = foundMovie.image || '';
 
-    res.render('movie', movieData);
+    res.render('movie', foundMovie);
   } else {
     res.render('movie-not-found');
   }
