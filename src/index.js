@@ -147,11 +147,33 @@ server.post('/sign-up', (req, res) => {
 });
 //////
 
-// Endpoint películas de una usuaria
+// Endpoint id de las películas de una usuaria
 server.get('/user/movies', (req, res) => {
+  // Preparamos la query para obtener los movieIds
+  const movieIdsQuery = db.prepare(
+    'SELECT movieId FROM rel_movies_users WHERE userId = ?'
+  );
+  // Obtenemos el id de la usuaria
+  const userId = req.header('user-id');
+  // Ejecutamos la query
+  const movieIds = movieIdsQuery.all(userId); // Que nos devuelve algo como [{ movieId: 1 }, { movieId: 2 }];
+
+  // Obtenemos las interrogaciones separadas por comas
+  const moviesIdsQuestions = movieIds.map((id) => '?').join(', '); // Que nos devuelve '?, ?'
+  // Preparamos la segunda query para obtener todos los datos de las películas
+  const moviesQuery = db.prepare(
+    `SELECT * FROM movies WHERE id IN (${moviesIdsQuestions})`
+  );
+
+  // Convertimos el array de objetos de id anterior a un array de números
+  const moviesIdsNumbers = movieIds.map((movie) => movie.movieId); // que nos devuelve [1.0, 2.0]
+  // Ejecutamos segunda la query
+  const movies = moviesQuery.all(moviesIdsNumbers);
+
+  // Respondemos a la petición con
   res.json({
     success: true,
-    movies: [],
+    movies: movies,
   });
 });
 
