@@ -53,7 +53,7 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [x] 2. Obtener la película.
 - [x] 3. Renderiza una página cualquiera.
 - [x] 4. Renderiza la película.
-- [ ] 5. Añade estilos.
+- [x] 5. Añade estilos.
 
   4.5 Bases de datos I:
 
@@ -62,11 +62,11 @@ Por favor marca a continuación los ejericios que hayais terminado:
 - [x] 3. Haz un SELECT para obtener todas películas.
 - [x] 4. Mejora tu SELECT.
 - [x] 5. SELECT para el motor de plantillas.
-- [ ] 6. Crear la tabla de usuarias.
+- [x] 6. Crear la tabla de usuarias.
 
   4.6 Bases de datos I:
 
-- [ ] 1. Registro de nuevas usuarias en el front.
+- [x] 1. Registro de nuevas usuarias en el front.
 - [ ] 2. Registro de nuevas usuarias en el back.
 - [ ] 3. Comprueba que no haya una usuaria registrada con el mismo email.
 - [ ] 4. Actualiza el perfil de la usuaria en el front.
