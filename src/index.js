@@ -58,7 +58,7 @@ server.get('/movies', (req, res) => {
   res.json(response);
 });
 
-// Endpoint usuarios
+// Endpoint usuarios (login)
 server.post('/login', (req, res) => {
   const loggedUser = users.find((user) => {
     if (
@@ -93,7 +93,7 @@ server.post('/login', (req, res) => {
   }
 });
 
-// Endpoint para escuchar las peticiones
+// Endpoint para escuchar las peticiones (obtener las películas)
 /* server.get('/movie/:movieId', (req, res) => {
   const foundMovie = movies.find((movie) => movie.id === req.params.movieId);
   res.render('movie', foundMovie);
@@ -122,7 +122,8 @@ server.get('/movie/:movieId', (req, res) => {
   }
 });
 
-////// Lección 4.6 ejercicios 2 y 3 (registro nuevas usuarias y comprobar que no haya una con el mismo mail)
+// Endpoint sign-up
+////// REVISAR Lección 4.6 ejercicios 2 y 3 (registro nuevas usuarias y comprobar que no haya una con el mismo mail)
 server.post('/sign-up', (req, res) => {
   const userEmail = db.prepare(`SELECT email FROM users WHERE email=?`);
   const foundUser = userEmail.get(req.body.userEmail);
@@ -145,6 +146,14 @@ server.post('/sign-up', (req, res) => {
   }
 });
 //////
+
+// Endpoint películas de una usuaria
+server.get('/user/movies', (req, res) => {
+  res.json({
+    success: true,
+    movies: [],
+  });
+});
 
 // Servidor de estáticos de Express
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
