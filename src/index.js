@@ -1,25 +1,21 @@
+// Importar módulos
 const express = require('express');
 const cors = require('cors');
-// Importar el módulo better-sqlite3
 const Database = require('better-sqlite3');
-
-// Importar datos
-const movies = require('./data/movies.json');
-const users = require('./data/users.json');
 
 // Crear y configurar el servidor
 const server = express();
 server.use(cors());
 server.use(express.json());
 
+// Motor de plantillas (template engine)
+server.set('view engine', 'ejs');
+
 // Init express aplication
 const serverPort = 4001;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
-
-// Motor de plantillas (template engine)
-server.set('view engine', 'ejs');
 
 // Configuración base de datos
 const db = new Database('./src/db/database.db', {
@@ -46,7 +42,7 @@ server.get('/movies', (req, res) => {
     const query = db.prepare(
       `SELECT * FROM movies WHERE gender=? ORDER BY name ${sortFilterParam}`
     );
-    // ejecutamos la query
+    // Ejecutamos la query
     movieList = query.all(genderFilterParam);
   }
 
@@ -60,32 +56,16 @@ server.get('/movies', (req, res) => {
 
 // Endpoint usuarios (login)
 server.post('/login', (req, res) => {
-  const loggedUser = users.find((user) => {
-    if (
-      // Recordar que nuestros bodyParams son userEmail y userPass (línea 4 api-user.js)
-      user.email === req.body.userEmail &&
-      user.password === req.body.userPass
-    ) {
-      return user;
-    }
-    /* O simplemente 
-    users.find((user) => user.email === req.body.userEmail &&
-    user.password === req.body.userPass) */
-  });
-  if (loggedUser !== undefined) {
+  const query = db.prepare(`SELECT * FROM users WHERE email=? AND password =?`);
+
+  const loggedUser = query.get(req.body.userEmail, req.body.userPass);
+
+  if (loggedUser) {
     return res.json({
       success: true,
       userId: loggedUser.id,
     });
-    /* Otra forma de hacerlo
-      if (loggedUser) {
-    res.json({
-      success: true,
-      userId: 'id_de_la_usuaria_encontrada',
-    });
-    */
   } else {
-    // Es decir, si es undefined, o sea, si no lo encuentra en nuestro json de users, salta el mensaje Not Found:
     return res.json({
       success: false,
       errorMessage: 'Usuaria/o no encontrada/o',
@@ -210,7 +190,7 @@ server.get('/user/movies', (req, res) => {
   );
 
   // Convertimos el array de objetos de id anterior a un array de números
-  const moviesIdsNumbers = movieIds.map((movie) => movie.movieId); // que nos devuelve [1.0, 2.0]
+  const moviesIdsNumbers = movieIds.map((movie) => movie.movieId); // Que nos devuelve [1.0, 2.0]
   // Ejecutamos segunda la query
   const movies = moviesQuery.all(moviesIdsNumbers);
   // Respondemos a la petición con
