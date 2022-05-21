@@ -56,9 +56,14 @@ server.get('/movies', (req, res) => {
 
 // Endpoint usuarios (login)
 server.post('/login', (req, res) => {
-  const query = db.prepare(`SELECT * FROM users WHERE email=? AND password =?`);
+  const loginEmail = req.body.email;
+  const loginPassword = req.body.password;
 
-  const loggedUser = query.get(req.body.userEmail, req.body.userPass);
+  const query = db.prepare(
+    `SELECT * FROM users WHERE email = ? AND password = ?`
+  );
+
+  const loggedUser = query.get(loginEmail, loginPassword);
 
   if (loggedUser) {
     return res.json({
@@ -104,7 +109,7 @@ server.get('/movie/:movieId', (req, res) => {
 // Endpoint sign-up
 server.post('/sign-up', (req, res) => {
   const userEmail = db.prepare(`SELECT email FROM users WHERE email=?`);
-  const foundUser = userEmail.get(req.body.userEmail);
+  const foundUser = userEmail.get(req.body.email);
   console.log(foundUser);
   console.log(userEmail);
   // Comprobar si el e-mail ya existe en la db
@@ -112,7 +117,7 @@ server.post('/sign-up', (req, res) => {
     const query = db.prepare(
       `INSERT INTO users (email, password) VALUES (?, ?)`
     );
-    const newUser = query.run(req.body.userEmail, req.body.userPass);
+    const newUser = query.run(req.body.email, req.body.password);
     console.log(newUser);
     res.json({
       success: true,
@@ -143,8 +148,8 @@ server.post('/user/profile', (req, res) => {
     profilePass,
     profileId
   );
-  console.log(updateUser);
-  if (updateUser.changes !== 0) {
+  // res.json({ success: true });
+  if (updateUser.change !== 0) {
     res.json({
       success: true,
       message: 'Datos modificados correctamente',

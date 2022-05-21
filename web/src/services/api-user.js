@@ -1,11 +1,6 @@
 // Login
 const sendLoginToApi = (data) => {
   console.log('Se están enviando datos al login:', data);
-  const bodyParams = {
-    userEmail: data.email,
-    userPass: data.password,
-  };
-  console.log(data);
   // Fetch cambiado con la ruta correcta para el login
   return fetch('http://localhost:4001/login', {
     // Método POST
@@ -14,8 +9,7 @@ const sendLoginToApi = (data) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    // Body (declaramos bodyParams en la línea 4)
-    body: JSON.stringify(bodyParams),
+    body: JSON.stringify(data),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -26,10 +20,6 @@ const sendLoginToApi = (data) => {
 // Signup
 const sendSingUpToApi = (data) => {
   console.log('Se están enviando datos al signup:', data);
-  const bodyParams = {
-    userEmail: data.email,
-    userPass: data.password,
-  };
   return fetch('http://localhost:4001/sign-up', {
     // Método POST
     method: 'POST',
@@ -37,7 +27,7 @@ const sendSingUpToApi = (data) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(bodyParams),
+    body: JSON.stringify(data),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -45,20 +35,16 @@ const sendSingUpToApi = (data) => {
     });
 };
 
-// Profile
+// Crear profile
 const sendProfileToApi = (userId, data) => {
   console.log('Se están enviando datos al profile:', userId, data);
-  const bodyParams = {
-    userEmail: data.email,
-    userPass: data.password,
-  };
   return fetch('http://localhost:4001/user/profile', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'user-id': userId,
     },
-    body: JSON.stringify(bodyParams),
+    body: JSON.stringify(data),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -66,6 +52,7 @@ const sendProfileToApi = (userId, data) => {
     });
 };
 
+// Consultar profile
 const getProfileFromApi = (userId) => {
   console.log('Se están pidiendo datos del profile del usuario:', userId);
   return fetch('http://localhost:4001/user/profile', {
