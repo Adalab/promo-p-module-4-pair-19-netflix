@@ -123,29 +123,30 @@ server.get('/movie/:movieId', (req, res) => {
 });
 
 // Endpoint sign-up
-////// REVISAR Lección 4.6 ejercicios 2 y 3 (registro nuevas usuarias y comprobar que no haya una con el mismo mail)
 server.post('/sign-up', (req, res) => {
   const userEmail = db.prepare(`SELECT email FROM users WHERE email=?`);
   const foundUser = userEmail.get(req.body.userEmail);
-
+  console.log(foundUser);
+  console.log(userEmail);
   // Comprobar si el e-mail ya existe en la db
   if (foundUser === undefined) {
     const query = db.prepare(
       `INSERT INTO users (email, password) VALUES (?, ?)`
     );
-    const result = query.run(req.body.userEmail, req.body.userPass);
+    const newUser = query.run(req.body.userEmail, req.body.userPass);
+    console.log(newUser);
     res.json({
       success: true,
-      errorMessage: '¡Bienvenida! Usuaria creada con éxito',
+      message: '¡Bienvenida! Usuaria registrada con éxito',
+      userId: newUser.lastInsertRowid,
     });
   } else {
     res.json({
       success: false,
-      errorMessage: 'Ya hay una usuaria con este e-mail',
+      errorMessage: 'Ya hay una usuaria registrada con este e-mail',
     });
   }
 });
-//////
 
 // Endpoint id de las películas de una usuaria
 server.get('/user/movies', (req, res) => {
@@ -169,7 +170,6 @@ server.get('/user/movies', (req, res) => {
   const moviesIdsNumbers = movieIds.map((movie) => movie.movieId); // que nos devuelve [1.0, 2.0]
   // Ejecutamos segunda la query
   const movies = moviesQuery.all(moviesIdsNumbers);
-
   // Respondemos a la petición con
   res.json({
     success: true,
