@@ -66,12 +66,12 @@ server.post('/login', (req, res) => {
   const loggedUser = query.get(loginEmail, loginPassword);
 
   if (loggedUser) {
-    return res.json({
+    res.json({
       success: true,
       userId: loggedUser.id,
     });
   } else {
-    return res.json({
+    res.json({
       success: false,
       errorMessage: 'Usuaria/o no encontrada/o',
     });
@@ -108,20 +108,17 @@ server.get('/movie/:movieId', (req, res) => {
 
 // Endpoint sign-up
 server.post('/sign-up', (req, res) => {
-  const userEmail = db.prepare(`SELECT email FROM users WHERE email=?`);
+  const userEmail = db.prepare(`SELECT * FROM users WHERE email=?`);
   const foundUser = userEmail.get(req.body.email);
-  console.log(foundUser);
-  console.log(userEmail);
+
   // Comprobar si el e-mail ya existe en la db
-  if (foundUser === undefined) {
+  if (foundUser) {
     const query = db.prepare(
       `INSERT INTO users (email, password) VALUES (?, ?)`
     );
     const newUser = query.run(req.body.email, req.body.password);
-    console.log(newUser);
     res.json({
       success: true,
-      message: '¡Bienvenida! Usuaria registrada con éxito',
       userId: newUser.lastInsertRowid,
     });
   } else {
@@ -137,7 +134,7 @@ server.post('/user/profile', (req, res) => {
   const profileName = req.body.name;
   const profileEmail = req.body.email;
   const profilePass = req.body.password;
-  const profileId = req.header('user-id');
+  const profileId = req.headers['user-id'];
 
   const query = db.prepare(
     `UPDATE users SET name=?, email=?, password=? WHERE id=?`
@@ -153,12 +150,12 @@ server.post('/user/profile', (req, res) => {
     res.json({
       success: true,
       message: 'Datos modificados correctamente',
-      result: updateUser,
+      // result: updateUser,
     });
   } else {
     res.json({
       success: false,
-      errorMessage: 'Ha habido un error',
+      message: 'Ha habido un error',
     });
   }
 });
