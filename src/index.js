@@ -101,9 +101,8 @@ server.post('/login', (req, res) => {
 server.get('/movie/:movieId', (req, res) => {
   ///// const movieData = movies.find((movie) => movie.id === req.params.movieId);
 
-  // Recoger el parametro Id de la película a detallar
+  // Recoger el parametro id de la película a detallar
   const movieIdParam = req.params.movieId;
-
   // Preparamos la query
   const query = db.prepare(`SELECT * FROM movies WHERE id=?`);
   // Ejecutamos la query
@@ -148,12 +147,12 @@ server.post('/sign-up', (req, res) => {
   }
 });
 
-// Endpoint profile
+// Endpoint perfil de usuaria
 server.post('/user/profile', (req, res) => {
   const profileName = req.body.name;
   const profileEmail = req.body.email;
   const profilePass = req.body.password;
-  const profileId = req.header.userId;
+  const profileId = req.header('user-id');
 
   const query = db.prepare(
     `UPDATE users SET name=?, email=?, password=? WHERE id=?`
@@ -177,6 +176,19 @@ server.post('/user/profile', (req, res) => {
       errorMessage: 'Ha habido un error',
     });
   }
+});
+
+// Endpoint para recuperar los datos del perfil de la usuaria
+server.get('/user/profile', (req, res) => {
+  // Recoger el parametro id del usuario
+  const userProfileId = req.header('user-id');
+  // Preparamos la query
+  const query = db.prepare(
+    `SELECT name, email, password FROM users WHERE id=?`
+  );
+  // Ejecutamos la query
+  const foundProfileUser = query.get(userProfileId);
+  res.json(foundProfileUser);
 });
 
 // Endpoint id de las películas de una usuaria
