@@ -134,19 +134,16 @@ server.post('/user/profile', (req, res) => {
   const profileName = req.body.name;
   const profileEmail = req.body.email;
   const profilePass = req.body.password;
-  const profileId = req.headers['user-id'];
+  const userId = req.header('user-id');
+
+  console.log(req.header('user-id'));
 
   const query = db.prepare(
     `UPDATE users SET name=?, email=?, password=? WHERE id=?`
   );
-  const updateUser = query.run(
-    profileName,
-    profileEmail,
-    profilePass,
-    profileId
-  );
+  const updateUser = query.run(profileName, profileEmail, profilePass, userId);
   // res.json({ success: true });
-  if (updateUser.change !== 0) {
+  if (updateUser.changes !== 0) {
     res.json({
       success: true,
       message: 'Datos modificados correctamente',

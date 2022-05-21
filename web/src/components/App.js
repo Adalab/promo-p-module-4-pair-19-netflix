@@ -162,7 +162,7 @@ const App = () => {
       De esta forma Header maneja datos más simples y solo los que necesita. Queremos que Header sea lo más simple posible. */}
       <Header isUserLogged={!!userId} logout={logout} />
       <Switch>
-        <Route exact path='/'>
+        <Route exact path="/">
           <AllMovies
             movies={appMovies}
             allMoviesOptionGender={allMoviesOptionGender}
@@ -170,26 +170,27 @@ const App = () => {
             handleAllMoviesOptions={handleAllMoviesOptions}
           />
         </Route>
-        <Route path='/my-movies'>
+        <Route path="/my-movies">
           <MyMovies movies={userMovies} />
         </Route>
-        <Route path='/login'>
+        <Route path="/login">
           <Login
             loginErrorMessage={loginErrorMessage}
             sendLoginToApi={sendLoginToApi}
           />
         </Route>
-        <Route path='/signup'>
+        <Route path="/signup">
           <SignUp
             signUpErrorMessage={signUpErrorMessage}
             sendSingUpToApi={sendSingUpToApi}
           />
         </Route>
-        <Route path='/profile'>
+        <Route path="/profile">
           <Profile
             userName={userName}
             userEmail={userEmail}
             userPassword={userPassword}
+            userId={userId}
             sendProfileToApi={sendProfileToApi}
           />
         </Route>

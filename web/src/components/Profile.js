@@ -21,7 +21,7 @@ const Profile = (props) => {
   const handleForm = (ev) => {
     ev.preventDefault();
     // Enviamos los datos a App y este al API
-    props.sendProfileToApi({
+    props.sendProfileToApi(props.userId, {
       name: name,
       email: email,
       password: password,
@@ -30,49 +30,49 @@ const Profile = (props) => {
 
   // Render
   return (
-    <section className='border--medium'>
+    <section className="border--medium">
       <h1>Mi perfil</h1>
       <form onSubmit={handleForm}>
-        <label className='form__label display-block' htmlFor='name'>
+        <label className="form__label display-block" htmlFor="name">
           Mi nombre
         </label>
         <input
-          className='form__input-text'
-          type='text'
-          name='name'
-          id='name'
+          className="form__input-text"
+          type="text"
+          name="name"
+          id="name"
           value={name}
           onChange={handleName}
         />
 
-        <label className='form__label display-block' htmlFor='email'>
+        <label className="form__label display-block" htmlFor="email">
           Mi email
         </label>
         <input
-          className='form__input-text'
-          type='text'
-          name='email'
-          id='email'
+          className="form__input-text"
+          type="text"
+          name="email"
+          id="email"
           value={email}
           onChange={handleEmail}
         />
 
-        <label className='form__label display-block' htmlFor='password'>
+        <label className="form__label display-block" htmlFor="password">
           Mi contraseña
         </label>
         <input
-          className='form__input-text'
-          type='text'
-          name='password'
-          id='password'
+          className="form__input-text"
+          type="text"
+          name="password"
+          id="password"
           value={password}
           onChange={handlePassword}
         />
 
         <input
-          className='form__btn display-block'
-          type='submit'
-          value='Guardar'
+          className="form__btn display-block"
+          type="submit"
+          value="Guardar"
         />
       </form>
     </section>
