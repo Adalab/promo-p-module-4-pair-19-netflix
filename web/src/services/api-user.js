@@ -56,7 +56,7 @@ const sendProfileToApi = (userId, data) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      userId: userId,
+      'user-id': userId,
     },
     body: JSON.stringify(bodyParams),
   })
@@ -72,7 +72,7 @@ const getProfileFromApi = (userId) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      userId: userId,
+      'user-id': userId,
     },
   })
     .then((response) => response.json())
