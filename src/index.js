@@ -148,6 +148,37 @@ server.post('/sign-up', (req, res) => {
   }
 });
 
+// Endpoint profile
+server.post('/user/profile', (req, res) => {
+  const profileName = req.body.name;
+  const profileEmail = req.body.email;
+  const profilePass = req.body.password;
+  const profileId = req.header.userId;
+
+  const query = db.prepare(
+    `UPDATE users SET name=?, email=?, password=? WHERE id=?`
+  );
+  const updateUser = query.run(
+    profileName,
+    profileEmail,
+    profilePass,
+    profileId
+  );
+  console.log(updateUser);
+  if (updateUser.changes !== 0) {
+    res.json({
+      success: true,
+      message: 'Datos modificados correctamente',
+      result: updateUser,
+    });
+  } else {
+    res.json({
+      success: false,
+      errorMessage: 'Ha habido un error',
+    });
+  }
+});
+
 // Endpoint id de las películas de una usuaria
 server.get('/user/movies', (req, res) => {
   // Preparamos la query para obtener los movieIds
