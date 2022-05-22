@@ -6,7 +6,9 @@ Alicia González San Juan | Clara Miranda Zapata
 
 ### **Vista previa**
 
-![Página](./src/public-movies-images/preview-banner.png)
+<p align="center">
+<img src="https://github.com/Adalab/promo-p-module-4-pair-19-netflix/blob/main/src/public-movies-images/preview-banner.PNG" />
+</p>
 
 ### Enlaces de **interés**
 
