@@ -112,6 +112,11 @@ server.post('/sign-up', (req, res) => {
 
   // Comprobar si el e-mail ya existe en la db
   if (foundUser) {
+    res.json({
+      success: false,
+      errorMessage: 'Ya hay una usuaria registrada con este e-mail',
+    });
+  } else {
     const query = db.prepare(
       `INSERT INTO users (email, password) VALUES (?, ?)`
     );
@@ -119,11 +124,6 @@ server.post('/sign-up', (req, res) => {
     res.json({
       success: true,
       userId: newUser.lastInsertRowid,
-    });
-  } else {
-    res.json({
-      success: false,
-      errorMessage: 'Ya hay una usuaria registrada con este e-mail',
     });
   }
 });
