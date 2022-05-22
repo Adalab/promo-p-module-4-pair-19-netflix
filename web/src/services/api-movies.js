@@ -4,7 +4,7 @@ const getMoviesFromApi = (params) => {
   console.log('Se están pidiendo las películas de la app');
   // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
   return fetch(
-    // '//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/empty.json'
+    // Cambiamos '//beta.adalab.es/curso-intensivo-fullstack-recursos/apis/netflix-v1/empty.json' por:
     `//localhost:4001/movies?gender=${params.gender}&sort=${params.sort}`,
     {
       method: 'GET',

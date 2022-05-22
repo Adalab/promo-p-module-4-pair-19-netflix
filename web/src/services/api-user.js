@@ -1,16 +1,18 @@
 // Login
+/* ENUNCIADOS */
 const sendLoginToApi = (data) => {
   console.log('Se están enviando datos al login:', data);
-  // Fetch cambiado con la ruta correcta para el login
+  /* CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC */
+  // Fetch cambiado con la ruta correcta para el login:
   return fetch('http://localhost:4001/login', {
     // Método POST
     method: 'POST',
-    // Header
+    // Header params
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  })
+  }) /* CAMBIA EL CONTENIDO DE ESTE THEN PARA GESTIONAR LA RESPUESTA DEL SERVIDOR Y RETORNAR AL COMPONENTE APP LO QUE NECESITA */
     .then((response) => response.json())
     .then((data) => {
       return data;
@@ -21,9 +23,7 @@ const sendLoginToApi = (data) => {
 const sendSingUpToApi = (data) => {
   console.log('Se están enviando datos al signup:', data);
   return fetch('http://localhost:4001/sign-up', {
-    // Método POST
     method: 'POST',
-    // Header
     headers: {
       'Content-Type': 'application/json',
     },
@@ -74,11 +74,8 @@ const getUserMoviesFromApi = (userId) => {
     'Se están pidiendo datos de las películas de la usuaria:',
     userId
   );
-  // CAMBIA ESTE FETCH PARA QUE APUNTE A UN ENDPOINT DE TU SERVIDOR, PIENSA SI DEBE SER GET O POST, PIENSA QUÉ DATOS DEBES ENVIAR, ETC
   return fetch('http://localhost:4001/user/movies', {
-    // Método GET
     method: 'GET',
-    // Header params
     headers: {
       'Content-Type': 'application/json',
       'user-id': userId,

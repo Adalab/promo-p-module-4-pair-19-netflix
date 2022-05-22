@@ -24,7 +24,7 @@ const db = new Database('./src/db/database.db', {
 
 // Endpoint para obtener las películas
 server.get('/movies', (req, res) => {
-  // Recogemos los query params, si no llegan le damos valores por defecto
+  // Recogemos los query params, si no llegan, le damos valores por defecto
   const genderFilterParam = req.query.gender || '';
   const sortFilterParam = req.query.sort || 'ASC';
 
@@ -45,7 +45,6 @@ server.get('/movies', (req, res) => {
     // Ejecutamos la query
     movieList = query.all(genderFilterParam);
   }
-
   // Respondemos a la petición con los datos que ha devuelto la base de datos
   const response = {
     success: true,
@@ -84,9 +83,9 @@ server.post('/login', (req, res) => {
   res.render('movie', foundMovie);
 }); */
 server.get('/movie/:movieId', (req, res) => {
-  ///// const movieData = movies.find((movie) => movie.id === req.params.movieId);
+  /* const movieData = movies.find((movie) => movie.id === req.params.movieId); */
 
-  // Recoger el parametro id de la película a detallar
+  // Recoger el parámetro id de la película a detallar
   const movieIdParam = req.params.movieId;
   // Preparamos la query
   const query = db.prepare(`SELECT * FROM movies WHERE id=?`);
@@ -136,8 +135,6 @@ server.post('/user/profile', (req, res) => {
   const profilePass = req.body.password;
   const userId = req.header('user-id');
 
-  console.log(req.header('user-id'));
-
   const query = db.prepare(
     `UPDATE users SET name=?, email=?, password=? WHERE id=?`
   );
@@ -146,13 +143,13 @@ server.post('/user/profile', (req, res) => {
   if (updateUser.changes !== 0) {
     res.json({
       success: true,
-      message: 'Datos modificados correctamente',
+      message: 'Los datos han sido modificados correctamente',
       // result: updateUser,
     });
   } else {
     res.json({
       success: false,
-      message: 'Ha habido un error',
+      message: 'Ha habido un error en la modificación de los datos',
     });
   }
 });
@@ -181,8 +178,9 @@ server.get('/user/movies', (req, res) => {
   // Ejecutamos la query
   const movieIds = movieIdsQuery.all(userId); // Que nos devuelve algo como [{ movieId: 1 }, { movieId: 2 }];
 
-  // Obtenemos las interrogaciones separadas por comas
+  // Obtenemos las interrogaciones, separadas por comas
   const moviesIdsQuestions = movieIds.map((id) => '?').join(', '); // Que nos devuelve '?, ?'
+
   // Preparamos la segunda query para obtener todos los datos de las películas
   const moviesQuery = db.prepare(
     `SELECT * FROM movies WHERE id IN (${moviesIdsQuestions})`
@@ -190,6 +188,7 @@ server.get('/user/movies', (req, res) => {
 
   // Convertimos el array de objetos de id anterior a un array de números
   const moviesIdsNumbers = movieIds.map((movie) => movie.movieId); // Que nos devuelve [1.0, 2.0]
+
   // Ejecutamos segunda la query
   const movies = moviesQuery.all(moviesIdsNumbers);
   // Respondemos a la petición con
@@ -203,10 +202,10 @@ server.get('/user/movies', (req, res) => {
 const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
 
-// Servidor de estáticos para las fotos
+// Servidor de estáticos para las imágenes
 const staticServerPathImages = './src/public-movies-images';
 server.use(express.static(staticServerPathImages));
-// http://localhost:4000/gambita-de-dama.jpg Se ve el póster de la serie
+// En http://localhost:4000/gambita-de-dama.jpg se ve el póster de la serie
 
 // Servidor de estáticos para los estilos
 const staticServerPathStyles = './src/web/src/stylesheets';
